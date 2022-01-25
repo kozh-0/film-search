@@ -10,9 +10,9 @@ export default class Movies extends Component {
         }
     }
 
-    componentDidUpdate() {
-        console.log('kek');
-    }
+    // componentDidUpdate() {
+    //     console.log('geek');
+    // }
     search = () => {
         if (this.state.input.length > 2) {
             fetch(`http://www.omdbapi.com/?apikey=1ed0a52d&s=${this.state.input}&`)
@@ -29,14 +29,17 @@ export default class Movies extends Component {
         const {movies, input} = this.state;
         return (
             <>
-                <div style={{display: 'flex'}}>
+                <div className="main-input">
                     <input type="text" value={input} onChange={this.handler}/>
-                    <button onClick={this.search}>Search</button>
+                    <button 
+                        className="btn waves-effect waves-light" 
+                        onClick={this.search}
+                    >Search</button>
                 </div>
                 <section className="content">
                     {movies.length ? (
                     <Movie movies={movies}/>
-                    ) : <h3>Loading...</h3>}
+                    ) : <h3>¯\_(ツ)_/¯</h3>}
                 </section>
             </>
             
