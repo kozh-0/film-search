@@ -51,7 +51,6 @@ export default class Movies extends Component {
                     ) : <Preloader/>}
                 </section>
             </>
-            
         )
     }
 }
