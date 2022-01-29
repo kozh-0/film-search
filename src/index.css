@@ -64,7 +64,38 @@ nav {padding: 0 15px}
   display: flex;
   align-items: center;
 }
+.main-input [type="search"] {
+  font-size: 23px !important;
+}
 .main-input button {
   width: 150px;
   height: 42px;
+}
+
+
+/* FILTER +++++++++++++++++++++++++++++++ */
+
+.filter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  padding-top: 10px;
+}
+.filter_pages {
+  display:inline-block;
+  font-size: 18px;
+}
+
+.filter_radio {
+  padding-top: 20px;
+}
+.filter_radio input{
+  display: flex;
+  justify-content: space-between;
+}
+.filter_radio span {
+  padding-right: 15px;
+  font-size: 20px !important;
+  padding-left: 25px !important;
 }
