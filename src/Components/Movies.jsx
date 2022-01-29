@@ -34,9 +34,8 @@ export default class Movies extends Component {
         }
     }
 
-
     render() {
-        const {movies, input, page} = this.state;
+        const {movies, input, page, filter} = this.state;
         return (
             <>
                 <Search 
@@ -52,8 +51,10 @@ export default class Movies extends Component {
                     />
                     <Filter
                         handler={this.handler}
+                        filter={filter}
+                        search={this.search}
                     />
-                </div> 
+                </div>
                 <section className="content">
                     {movies.length ? (
                     <Movie movies={movies}/>
