@@ -24,16 +24,24 @@ export default class Movies extends Component {
     handler = (e) => { this.setState({[e.target.name]: e.target.value}) }
 
     componentDidMount() {
-        fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=matrix&page=1`)
+        fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=matrix&page=1`)
             .then(response => response.json())
-            .then(item => this.setState({movies: item.Search, loading: false}));
+            .then(item => this.setState({movies: item.Search, loading: false}))
+            .catch((err) => {
+                console.error(err);
+                this.setState({loading: false});
+            });
     }
     search = () => {
         const {input, page, filter} = this.state;
         if (input.length > 2) {
-            fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=${input}&page=${page}&type=${filter}`)
+            fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${input}&page=${page}&type=${filter}`)
                 .then(response => response.json())
-                .then(item => this.setState({movies: item.Search, loading: false}));
+                .then(item => this.setState({movies: item.Search, loading: false}))
+                .catch((err) => {
+                    console.error(err);
+                    this.setState({loading: false});
+                });
         }
     }
 
