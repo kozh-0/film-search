@@ -1,8 +1,9 @@
 
 export default function Movie(props) {
+    const {movies} = props;
     return(
         <>
-            {props.movies.map(item => {
+            {movies ? (movies.map(item => {
                 return (
                     <div className="card" key={item.imdbID}>
                         <div className="card-image">
@@ -21,7 +22,7 @@ export default function Movie(props) {
                         </div>
                     </div>   
                 )
-            })}
+            })) : <h4>Nothing found ¯\_(ツ)_/¯</h4>}
         </>    
     ) 
 }

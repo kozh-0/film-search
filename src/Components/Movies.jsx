@@ -5,6 +5,8 @@ import Search from "./Search";
 import Filter from "./Filter";
 import Pages from "./Pages";
 
+const API_KEY = process.env.REACT_APP_API_KEY;
+
 export default class Movies extends Component {
     constructor(props) {
         super(props);
@@ -13,6 +15,7 @@ export default class Movies extends Component {
             input: '',
             page: 1,
             filter: '',
+            loading: true,
         }
     }
 
@@ -21,21 +24,21 @@ export default class Movies extends Component {
     handler = (e) => { this.setState({[e.target.name]: e.target.value}) }
 
     componentDidMount() {
-        fetch(`http://www.omdbapi.com/?apikey=1ed0a52d&s=matrix&page=1`)
-                .then(response => response.json())
-                .then(item => this.setState({movies: item.Search}));
+        fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=matrix&page=1`)
+            .then(response => response.json())
+            .then(item => this.setState({movies: item.Search, loading: false}));
     }
     search = () => {
         const {input, page, filter} = this.state;
         if (input.length > 2) {
-            fetch(`http://www.omdbapi.com/?apikey=1ed0a52d&s=${input}&page=${page}&type=${filter}`)
+            fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=${input}&page=${page}&type=${filter}`)
                 .then(response => response.json())
-                .then(item => this.setState({movies: item.Search}));
+                .then(item => this.setState({movies: item.Search, loading: false}));
         }
     }
 
     render() {
-        const {movies, input, page, filter} = this.state;
+        const {movies, input, page, filter, loading} = this.state;
         return (
             <>
                 <Search 
@@ -56,9 +59,7 @@ export default class Movies extends Component {
                     />
                 </div>
                 <section className="content">
-                    {movies.length ? (
-                    <Movie movies={movies}/>
-                    ) : <Preloader/>}
+                    {loading ? <Preloader/> : <Movie movies={movies}/>}
                 </section>
             </>
         )
