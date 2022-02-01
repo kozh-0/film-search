@@ -2,7 +2,7 @@
   "name": "films",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://kozh-0.github.io",
+  "homepage": "https://kozh-0.github.io/film-search",
   "dependencies": {
     "-": "0.0.1",
     "@testing-library/jest-dom": "^5.16.1",
