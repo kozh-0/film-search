@@ -16,6 +16,7 @@ export default class Movies extends Component {
             page: 1,
             filter: '',
             loading: true,
+            total: 0,
         }
     }
 
@@ -26,7 +27,7 @@ export default class Movies extends Component {
     componentDidMount() {
         fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=matrix&page=1`)
             .then(response => response.json())
-            .then(item => this.setState({movies: item.Search, loading: false}))
+            .then(item => this.setState({movies: item.Search, total: item.totalResults, loading: false}))
             .catch((err) => {
                 console.error(err);
                 this.setState({loading: false});
@@ -37,7 +38,7 @@ export default class Movies extends Component {
         if (input.length > 2) {
             fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${input}&page=${page}&type=${filter}`)
                 .then(response => response.json())
-                .then(item => this.setState({movies: item.Search, loading: false}))
+                .then(item => this.setState({movies: item.Search, total: item.totalResults, loading: false}))
                 .catch((err) => {
                     console.error(err);
                     this.setState({loading: false});
@@ -46,7 +47,7 @@ export default class Movies extends Component {
     }
 
     render() {
-        const {movies, input, page, filter, loading} = this.state;
+        const {movies, input, page, filter, loading, total} = this.state;
         return (
             <>
                 <Search 
@@ -54,6 +55,7 @@ export default class Movies extends Component {
                     handler={this.handler} 
                     search={this.search} 
                 />
+                <span>Total: {total}, Pages: {total ? Math.round(total/10) : 0}</span>
                 <div className="filter">
                     <Pages 
                         page={page} 
