@@ -12,7 +12,7 @@ export default class Movies extends Component {
         super(props);
         this.state = {
             movies: [],
-            input: '',
+            input: 'Matrix',
             page: 1,
             filter: '',
             loading: true,
