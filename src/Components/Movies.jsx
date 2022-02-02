@@ -23,7 +23,7 @@ export default class Movies extends Component {
     plus = () => { this.setState({page: this.state.page + 1}) }
     minus = () => { this.setState({page: this.state.page - 1}) }
     handler = (e) => { this.setState({[e.target.name]: e.target.value}) }
-    toDigits = (e) => { this.setState({page: e.target.value.replace(/\D/g, '')})}
+    toDigits = (e) => { this.setState({page: parseInt(e.target.value.replace(/\D/g, ''))}) }
 
     componentDidMount() {
         fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=matrix&page=1`)
