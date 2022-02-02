@@ -99,3 +99,16 @@ nav {padding: 0 15px}
   font-size: 20px !important;
   padding-left: 25px !important;
 }
+
+
+.page {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.page_input {
+  display: inline-block;
+  width: 55px !important;
+  text-align: center;
+}

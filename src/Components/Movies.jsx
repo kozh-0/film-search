@@ -23,6 +23,7 @@ export default class Movies extends Component {
     plus = () => { this.setState({page: this.state.page + 1}) }
     minus = () => { this.setState({page: this.state.page - 1}) }
     handler = (e) => { this.setState({[e.target.name]: e.target.value}) }
+    toDigits = (e) => { this.setState({page: e.target.value.replace(/\D/g, '')})}
 
     componentDidMount() {
         fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=matrix&page=1`)
@@ -35,7 +36,7 @@ export default class Movies extends Component {
     }
     search = () => {
         const {input, page, filter} = this.state;
-        if (input.length > 2) {
+        if (input) {
             fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${input}&page=${page}&type=${filter}`)
                 .then(response => response.json())
                 .then(item => this.setState({movies: item.Search, total: item.totalResults, loading: false}))
@@ -61,6 +62,9 @@ export default class Movies extends Component {
                         page={page} 
                         plus={this.plus}
                         minus={this.minus}
+                        handler={this.handler}
+                        search={this.search}
+                        toDigits={this.toDigits}
                     />
                     <Filter
                         handler={this.handler}
