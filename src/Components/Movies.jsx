@@ -9,7 +9,7 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 
 const Movies = () => {
     const [movies, setMovies] = useState([]);
-    const [input, setInput] = useState('Man');
+    const [input, setInput] = useState('Matrix');
     const [page, setPage] = useState(1);
     const [filter, setFilter] = useState('');
     const [loading, setLoading] = useState(true);
@@ -39,7 +39,7 @@ const Movies = () => {
         }
     }
     useEffect(() => {
-        fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=Man&page=1`)
+        fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=Matrix&page=1`)
             .then(response => response.json())
             .then(item => {
                 setMovies(item.Search);
