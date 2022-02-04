@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {useState, useEffect} from "react";
 import Movie from "./Movie";
 import Preloader from "./Preloader";
 import Search from "./Search";
@@ -7,75 +7,77 @@ import Pages from "./Pages";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-export default class Movies extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            movies: [],
-            input: 'Matrix',
-            page: 1,
-            filter: '',
-            loading: true,
-            total: 0,
-        }
-    }
+const Movies = () => {
+    const [movies, setMovies] = useState([]);
+    const [input, setInput] = useState('Man');
+    const [page, setPage] = useState(1);
+    const [filter, setFilter] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [total, setTotal] = useState(0);
 
-    plus = () => { this.setState({page: this.state.page + 1}) }
-    minus = () => { this.setState({page: this.state.page - 1}) }
-    handler = (e) => { this.setState({[e.target.name]: e.target.value}) }
-    toDigits = (e) => { this.setState({page: parseInt(e.target.value.replace(/\D/g, ''))}) }
 
-    componentDidMount() {
-        fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=matrix&page=1`)
-            .then(response => response.json())
-            .then(item => this.setState({movies: item.Search, total: item.totalResults, loading: false}))
-            .catch((err) => {
-                console.error(err);
-                this.setState({loading: false});
-            });
-    }
-    search = () => {
-        const {input, page, filter} = this.state;
+    const plus = () => { setPage(page + 1) }
+    const minus = () => { setPage(page - 1) }
+
+    const handleSetPage = (e) => { setPage(parseInt(e.target.value.replace(/\D/g, ''))) }
+    const handleSetFilter = (e) => { setFilter(e.target.value) }
+
+    
+    const search = () => {
         if (input) {
             fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${input}&page=${page}&type=${filter}`)
                 .then(response => response.json())
-                .then(item => this.setState({movies: item.Search, total: item.totalResults, loading: false}))
+                .then(item => {
+                    setMovies(item.Search);
+                    setTotal(item.totalResults);
+                    setLoading(false);
+                })
                 .catch((err) => {
                     console.error(err);
-                    this.setState({loading: false});
+                    setLoading(false);
                 });
         }
     }
+    useEffect(() => {
+        fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=Man&page=1`)
+            .then(response => response.json())
+            .then(item => {
+                setMovies(item.Search);
+                setTotal(item.totalResults);
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.error(err);
+                setLoading(false);
+            });
+    }, []);
 
-    render() {
-        const {movies, input, page, filter, loading, total} = this.state;
-        return (
-            <>
-                <Search 
-                    input={input} 
-                    handler={this.handler} 
-                    search={this.search} 
+    return (
+        <div className="container">
+            <Search 
+                input={input} 
+                setInput={setInput} 
+                search={search} 
+            />
+            <span>Total: {total}, Pages: {total ? Math.round(total/10) : 0}</span>
+            <div className="filter">
+                <Pages 
+                    page={page} 
+                    plus={plus}
+                    minus={minus}
+                    handleSetPage={handleSetPage}
+                    search={search}
                 />
-                <span>Total: {total}, Pages: {total ? Math.round(total/10) : 0}</span>
-                <div className="filter">
-                    <Pages 
-                        page={page} 
-                        plus={this.plus}
-                        minus={this.minus}
-                        handler={this.handler}
-                        search={this.search}
-                        toDigits={this.toDigits}
-                    />
-                    <Filter
-                        handler={this.handler}
-                        filter={filter}
-                        search={this.search}
-                    />
-                </div>
-                <section className="content">
-                    {loading ? <Preloader/> : <Movie movies={movies}/>}
-                </section>
-            </>
-        )
-    }
+                <Filter
+                    handleSetFilter={handleSetFilter}
+                    filter={filter}
+                />
+            </div>
+            <section className="content">
+                {loading ? <Preloader/> : <Movie movies={movies}/>}
+            </section>
+        </div>
+    )
 }
+
+export default Movies;

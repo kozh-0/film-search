@@ -1,5 +1,4 @@
-export default function Pages(props) {
-    const {plus, minus, page, handler, search, toDigits} = props;
+export default function Pages({plus, minus, page, handleSetPage, search}) {
     return (
         <div className="page">
             <div className="filter_pages">
@@ -13,8 +12,7 @@ export default function Pages(props) {
                 type="text" 
                 name="page" 
                 value={page} 
-                onChange={toDigits} 
-                onBlur={handler}
+                onChange={handleSetPage}
                 onKeyDown={(e) => {if(e.key === "Enter") search()}}
             />
         </div>
