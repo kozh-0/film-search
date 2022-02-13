@@ -7,7 +7,7 @@ import Pages from "./Pages";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-const Movies = () => {
+export default function Movies() {
     const [movies, setMovies] = useState([]);
     const [input, setInput] = useState('Matrix');
     const [page, setPage] = useState(1);
@@ -16,11 +16,17 @@ const Movies = () => {
     const [total, setTotal] = useState(0);
 
 
-    const plus = () => { setPage(page + 1) }
-    const minus = () => { setPage(page - 1) }
+    const plus = () => setPage(page + 1);
+    const minus = () => (page <= 1) ? setPage(1) : setPage(page - 1);
 
-    const handleSetPage = (e) => { setPage(parseInt(e.target.value.replace(/\D/g, ''))) }
-    const handleSetFilter = (e) => { setFilter(e.target.value) }
+    const handleSetPage = (e) => {
+        if (e.target.value === '') {
+            setPage(1)
+        } else {
+            setPage(parseInt(e.target.value.replace(/\D/g, '')));
+        }
+    }
+    const handleSetFilter = (e) => setFilter(e.target.value);
 
     
     const search = () => {
@@ -79,5 +85,3 @@ const Movies = () => {
         </div>
     )
 }
-
-export default Movies;
