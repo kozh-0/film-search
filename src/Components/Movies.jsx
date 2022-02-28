@@ -25,9 +25,7 @@ export default function Movies() {
         } else {
             setPage(parseInt(e.target.value.replace(/\D/g, '')));
         }
-    }
-    const handleSetFilter = (e) => setFilter(e.target.value);
-
+    };
     
     const search = () => {
         if (input) {
@@ -43,7 +41,8 @@ export default function Movies() {
                     setLoading(false);
                 });
         }
-    }
+    };
+
     useEffect(() => {
         fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=Matrix&page=1`)
             .then(response => response.json())
@@ -75,7 +74,7 @@ export default function Movies() {
                     search={search}
                 />
                 <Filter
-                    handleSetFilter={handleSetFilter}
+                    setFilter={setFilter}
                     filter={filter}
                 />
             </div>
